@@ -1,0 +1,228 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta charset="utf-8" />
+  <style type="text/css">
+    @import url(https://fonts.googleapis.com/css?family=Nobile:400italic,700italic);
+    @import url(https://fonts.googleapis.com/css?family=Dancing+Script);
+    * {
+      box-sizing: border-box;
+    }
+    
+    body {
+      background: #E5E5E5;
+      background-image: url("bday.jpg");
+      padding: 50px;
+      font-family: 'Roboto', sans-serif; /* Chọn font Roboto cho nội dung */
+    }
+    
+    #card-front {
+      color: #FFDFDF;
+    }
+    
+    #card, #card-front, #card-inside {
+      height: 600px;
+    }
+    
+    .wrap {
+      padding: 1.5em 2.5em;
+      height: 100%;
+    }
+    
+    #card-front, #card-inside {
+      width: 50%;
+      box-shadow: 2px 2px 30px rgba(0, 0, 0, .25), 0 0 1px rgba(0, 0, 0, .5);
+      position: absolute;
+      left: 50%;
+    }
+    
+    #card-inside .wrap {
+      background: #FFEFEF;
+      box-shadow: inset 2px 0 1px rgba(0, 0, 0, .05);
+    }
+    
+    #card {
+      max-width: 960px;
+      margin: 0 auto;
+      transform-style: preserve-3d;
+      perspective: 5000px;
+      position: relative;
+    }
+    
+    #card h1 {
+      text-align: center;
+      font-family: 'Pacifico', cursive; /* Font chữ phong cách cho tiêu đề */
+      font-size: 70px;
+      text-shadow: 4px 4px 0px rgba(0, 0, 0, .15);
+      color: #FFF;
+    }
+    
+    #card-inside {
+      font-size: 1.1em;
+      line-height: 1.4;
+      color: #331717;
+      font-style: italic;
+    }
+    
+    p {
+      margin-top: 1em;
+    }
+    
+    p.signed {
+      margin-top: 1.5em;
+      text-align: center;
+      font-family: 'Pacifico', cursive; /* Font chữ cho chữ ký */
+      font-size: 1.5em;
+    }
+    
+    #card-front {
+      background-color: #FF5555;
+      background-image: linear-gradient(to bottom, #FF5555 0%, #FF7777 100%);
+      transform-origin: left;
+      transition: transform 1s linear;
+      position: relative;
+    }
+    
+    #card-front button {
+      position: absolute;
+      bottom: 1em;
+      right: -12px;
+      background: #F44;
+      color: #FFF;
+      font-family: 'Roboto', sans-serif; /* Font chữ cho nút */
+      font-size: 1.5em;
+      padding: .5em;
+      border: none;
+      cursor: pointer;
+      box-shadow: 2px 2px 3px rgba(0, 0, 0, .25);
+    }
+    
+    #card-front button:hover {
+      background: #F22;
+    }
+    
+    #close {
+      display: none;
+    }
+    
+    #card.open-fully #close {
+      display: inline;
+    }
+    
+    #card.open-fully #open {
+      display: none;
+    }
+    
+    #card.open-half #card-front,
+    #card.close-half #card-front {
+      transform: rotateY(-90deg);
+    }
+    
+    #card.open-fully #card-front {
+      transform: rotateY(-180deg);
+    }
+    
+    #audio-player {
+      display: none;
+    }
+    
+    #play-music {
+      margin-top: 20px;
+      padding: 10px 20px;
+      background-color: #f266dd;
+      color: white;
+      border: none;
+      border-radius: 5px;
+      cursor: pointer;
+      font-size: 1.2em;
+    }
+    
+    #play-music:hover {
+      background-color: #f462c8;
+    }
+
+  </style>
+</head>
+<body>
+  <div id="card">
+    <div id="card-inside">
+      <div class="wrap">
+        <p>Dear Anh Thư.</p>
+        <p>Hey,</p>
+        <p>“Chúc mừng sinh nhật em, mọi ước nguyện trong tim em sẽ thành hiện thực, bất cứ điều gì em tìm kiếm em sẽ tìm thấy, mọi con đường mà em bước đi sẽ dẫn đến thành công. Ngày sinh nhật này là dấu mốc cho những điều tốt đẹp sẽ đến với em, không chỉ hôm nay mà còn mãi mãi về sau. Happy Birthday!</p>
+        <p>Bất cứ lúc nào em cần, anh sẽ luôn ở đây.</p>
+        <p>Always.</p>
+        <p>Hãy tận hưởng từng khoảnh khắc của ngày đặc biệt này. Chúc em luôn an lành, hạnh phúc và nụ cười không bao giờ tắt trên môi.</p>
+        <center>
+            <h4 style="margin: 0;">from</h4>
+        </center>
+        <p class="signed" style="margin-top: 0;">Thành Đạt</p> 
+    </div>
+    
+    </div>
+    <div id="card-front">
+      <div class="wrap">
+        <h1>Happy<h1>
+        <h1>Birthday!</h1>
+        <h1>Bé Yêu</h1>
+
+      </div>
+      <button id="open">&gt;</button>
+      <button id="close">&lt;</button>
+    </div>
+  </div>
+
+  <audio id="audio-player" loop>
+    <source src="Thanhdat.mp3" type="audio/mpeg">
+    Your browser does not support the audio element.
+  </audio>
+
+  <button id="play-music">Play Music</button>
+
+  <script>
+    document.addEventListener('DOMContentLoaded', function() {
+      function $(id) {
+        return document.getElementById(id);
+      }
+
+      const card = $('card');
+      const openB = $('open');
+      const closeB = $('close');
+      const audio = $('audio-player');
+      const playMusicButton = $('play-music');
+      let timer = null;
+
+      playMusicButton.addEventListener('click', function() {
+        if (audio.paused) {
+          audio.play().catch(function() {
+            console.log("Trình duyệt đã chặn tự động phát. Người dùng cần nhấp để kích hoạt âm thanh.");
+          });
+          playMusicButton.textContent = "Pause Music"; // Đổi văn bản nút thành "Pause Music"
+        } else {
+          audio.pause();
+          playMusicButton.textContent = "Play Music"; // Đổi văn bản nút thành "Play Music"
+        }
+      });
+
+      openB.addEventListener('click', function() {
+        card.setAttribute('class', 'open-half');
+        if (timer) clearTimeout(timer);
+        timer = setTimeout(function() {
+          card.setAttribute('class', 'open-fully');
+          timer = null;
+        }, 1000);
+      });
+
+      closeB.addEventListener('click', function() {
+        card.setAttribute('class', 'close-half');
+        if (timer) clearTimeout(timer);
+        timer = setTimeout(function() {
+          card.setAttribute('class', '');
+          timer = null;
+        }, 1000);
+      });
+    });
+  </script>
+</body>
+</html>
